@@ -42,14 +42,14 @@ export default function Phylogeny({ lineage, onSelect }: { lineage: Lineage | nu
     camera.position.set(90, 70, 165);
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true; controls.autoRotate = true; controls.autoRotateSpeed = 0.55;
-    scene.add(new THREE.AmbientLight(0x335577, 0.6));
-    const p1 = new THREE.PointLight(0x16f4ff, 1.2, 0); p1.position.set(-80, 60, 80); scene.add(p1);
-    const p2 = new THREE.PointLight(0xff2bd6, 1.0, 0); p2.position.set(90, -20, -60); scene.add(p2);
+    scene.add(new THREE.AmbientLight(0x6680aa, 0.9));
+    const p1 = new THREE.PointLight(0x16f4ff, 0.7, 0); p1.position.set(-80, 60, 80); scene.add(p1);
+    const p2 = new THREE.PointLight(0xff2bd6, 0.5, 0); p2.position.set(90, -20, -60); scene.add(p2);
 
     // bloom (neon glow)
     const composer = new EffectComposer(renderer);
     composer.addPass(new RenderPass(scene, camera));
-    const bloom = new UnrealBloomPass(new THREE.Vector2(W(), H()), 0.9, 0.7, 0.18);
+    const bloom = new UnrealBloomPass(new THREE.Vector2(W(), H()), 0.42, 0.5, 0.36);
     composer.addPass(bloom);
     composer.setSize(W(), H());
 
@@ -68,17 +68,15 @@ export default function Phylogeny({ lineage, onSelect }: { lineage: Lineage | nu
 
     // ── cluster layout: pop = cluster center on X, gen = height, agents orbit in cluster ──
     const gens = lineage.generations, pops = lineage.populations;
+    // clean columnar layout: x = population, y = generation, z = agent (parent→child edges read clearly)
     const perPop = Math.max(...lineage.nodes.map((n) => n.agent)) + 1;
-    const X = 70, Y = 18, R = 13;
+    const X = 80, Y = 22, Z = 13;
     const pos: Record<string, THREE.Vector3> = {};
     for (const n of lineage.nodes) {
-      const cx = (n.pop - (pops.length - 1) / 2) * X;
-      const ang = (n.agent / Math.max(1, perPop)) * Math.PI * 2 + n.gen * 0.5;
-      const rad = perPop > 1 ? R : 0;
       pos[n.id] = new THREE.Vector3(
-        cx + Math.cos(ang) * rad,
+        (n.pop - (pops.length - 1) / 2) * X,
         (n.gen - (gens[0] || 1)) * Y - (gens.length - 1) * Y / 2,
-        Math.sin(ang) * rad,
+        (n.agent - (perPop - 1) / 2) * Z,
       );
     }
     // fitness color: low magenta -> high cyan-green (neon)
@@ -94,7 +92,7 @@ export default function Phylogeny({ lineage, onSelect }: { lineage: Lineage | nu
       const a = pos[e.source], b = pos[e.target]; if (!a || !b) continue;
       const g = new THREE.BufferGeometry().setFromPoints([a, b]);
       scene.add(new THREE.Line(g, new THREE.LineBasicMaterial({
-        color: OPCOLOR[e.operator] || 0x8a8a99, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending,
+        color: OPCOLOR[e.operator] || 0x9fb4d0, transparent: true, opacity: 0.9,
       })));
     }
 
@@ -106,16 +104,16 @@ export default function Phylogeny({ lineage, onSelect }: { lineage: Lineage | nu
     lineage.nodes.forEach((n, i) => {
       const c = col(n.fitness);
       const tnorm = fmax > fmin ? (((n.fitness ?? 0) - fmin) / (fmax - fmin)) : 0.5;
-      const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 1.0, roughness: 0.3, metalness: 0.2 }));
+      const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 0.7, roughness: 0.35, metalness: 0.25 }));
       mesh.position.copy(pos[n.id]); mesh.scale.setScalar(0.01);
       const isBest = n.id === bestId;
-      const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: haloTex, color: c, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending, depthWrite: false }));
-      halo.scale.setScalar(isBest ? 22 : 12); mesh.add(halo);
+      const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: haloTex, color: c, transparent: true, opacity: 0.18, blending: THREE.AdditiveBlending, depthWrite: false }));
+      halo.scale.setScalar(isBest ? 14 : 6); mesh.add(halo);
       Object.assign(mesh as any, {
         node: n, best: isBest, halo,
         phase: i * 0.7,                       // twinkle offset
-        glowBase: 0.5 + tnorm * 1.4,          // fitter agents glow brighter ("accordingly")
-        glowAmp: 0.35 + tnorm * 0.5,          // and pulse stronger
+        glowBase: 0.35 + tnorm * 0.6,         // fitter agents glow a bit brighter
+        glowAmp: 0.12 + tnorm * 0.2,          // gentle pulse
       });
       scene.add(mesh); meshes.push(mesh);
     });
@@ -158,7 +156,7 @@ export default function Phylogeny({ lineage, onSelect }: { lineage: Lineage | nu
         // glow on/off: breathing emissive pulse, brighter for fitter agents
         const pulse = a.glowBase + Math.sin(t * 1.7 + a.phase) * a.glowAmp;
         (m.material as THREE.MeshStandardMaterial).emissiveIntensity = Math.max(0.1, pulse);
-        if (a.halo) (a.halo.material as THREE.SpriteMaterial).opacity = 0.3 + Math.max(0, Math.sin(t * 1.7 + a.phase)) * 0.5;
+        if (a.halo) (a.halo.material as THREE.SpriteMaterial).opacity = 0.1 + Math.max(0, Math.sin(t * 1.7 + a.phase)) * 0.2;
         if (a.best && a.grown) m.scale.setScalar(2.1 + Math.sin(t) * 0.18);
       });
       composer.render();
