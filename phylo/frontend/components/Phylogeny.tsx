@@ -103,20 +103,27 @@ export default function Phylogeny({ lineage, onSelect }: { lineage: Lineage | nu
     const meshes: THREE.Mesh[] = [];
     const bestId = lineage.best?.id;
     const haloTex = makeHalo();
-    for (const n of lineage.nodes) {
+    lineage.nodes.forEach((n, i) => {
       const c = col(n.fitness);
-      const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 1.1, roughness: 0.3, metalness: 0.2 }));
+      const tnorm = fmax > fmin ? (((n.fitness ?? 0) - fmin) / (fmax - fmin)) : 0.5;
+      const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 1.0, roughness: 0.3, metalness: 0.2 }));
       mesh.position.copy(pos[n.id]); mesh.scale.setScalar(0.01);
-      (mesh as any).node = n; (mesh as any).best = n.id === bestId;
-      const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: haloTex, color: c, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false }));
-      halo.scale.setScalar(n.id === bestId ? 22 : 12); mesh.add(halo);
+      const isBest = n.id === bestId;
+      const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: haloTex, color: c, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending, depthWrite: false }));
+      halo.scale.setScalar(isBest ? 22 : 12); mesh.add(halo);
+      Object.assign(mesh as any, {
+        node: n, best: isBest, halo,
+        phase: i * 0.7,                       // twinkle offset
+        glowBase: 0.5 + tnorm * 1.4,          // fitter agents glow brighter ("accordingly")
+        glowAmp: 0.35 + tnorm * 0.5,          // and pulse stronger
+      });
       scene.add(mesh); meshes.push(mesh);
-    }
+    });
     // gen-by-gen spawn-in
     gens.forEach((g, i) => setTimeout(() => {
       meshes.filter((m) => (m as any).node.gen === g).forEach((m) => {
         const target = (m as any).best ? 2.1 : 1.0; let s = 0.01;
-        const grow = () => { s += (target - s) * 0.18; m.scale.setScalar(s); if (Math.abs(target - s) > 0.02) requestAnimationFrame(grow); else m.scale.setScalar(target); };
+        const grow = () => { s += (target - s) * 0.18; m.scale.setScalar(s); if (Math.abs(target - s) > 0.02) requestAnimationFrame(grow); else { m.scale.setScalar(target); (m as any).grown = true; } };
         grow();
       });
     }, i * 600));
@@ -146,7 +153,14 @@ export default function Phylogeny({ lineage, onSelect }: { lineage: Lineage | nu
     let raf = 0, t = 0;
     const loop = () => {
       raf = requestAnimationFrame(loop); t += 0.03; controls.update();
-      meshes.forEach((m) => { if ((m as any).best) m.scale.setScalar(2.1 + Math.sin(t) * 0.18); });
+      meshes.forEach((m) => {
+        const a = m as any;
+        // glow on/off: breathing emissive pulse, brighter for fitter agents
+        const pulse = a.glowBase + Math.sin(t * 1.7 + a.phase) * a.glowAmp;
+        (m.material as THREE.MeshStandardMaterial).emissiveIntensity = Math.max(0.1, pulse);
+        if (a.halo) (a.halo.material as THREE.SpriteMaterial).opacity = 0.3 + Math.max(0, Math.sin(t * 1.7 + a.phase)) * 0.5;
+        if (a.best && a.grown) m.scale.setScalar(2.1 + Math.sin(t) * 0.18);
+      });
       composer.render();
     };
     loop();
