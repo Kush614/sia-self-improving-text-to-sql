@@ -1,0 +1,9 @@
+# Phylo standalone repo ignores
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
