@@ -2,7 +2,7 @@
 
 > An AI agent that **rewrites its own code, generation after generation — with no human edits and without changing the underlying model** — and gets measurably better at turning English questions into SQL. Verified against an **ungameable execution-accuracy grader**.
 
-**Result: execution accuracy climbed `75.8% → 79.2% → 88.3% → 93.3%` (+17.5 points) across 4 generations — every gain a self-discovered harness change, with the task model (Claude Haiku) held fixed the entire time.**
+**Result: execution accuracy climbed from `75.8%` to `95.0%` (+19.2 points) across 8 generations — every gain a self-discovered harness change, with the task model (Claude Haiku) held fixed the entire time.** Full per-generation results and the agent's own diffs: **[RESULTS.md](RESULTS.md)** · raw artifacts in [`results/run_1/`](results/run_1).
 
 🎥 **Video demo:** https://www.loom.com/share/8454512059b245dcbd6228f2d616997c
 🔗 **Live demo:** https://kush614.github.io/sia-self-improving-text-to-sql/ · **Deep dive:** [/explain.html](https://kush614.github.io/sia-self-improving-text-to-sql/explain.html)
@@ -26,12 +26,16 @@
 
 | Generation | What changed (the agent's own self-edit) | Execution accuracy |
 |---|---|---|
-| **1** (cold start) | Meta-agent's initial agent: full schema + question, one model call | **75.8%** (91/120) |
+| **1** (cold start) | Meta-agent's initial agent: full schema + question, one model call | 75.8% (91/120) |
 | **2** | Discovered Spider conventions: aggregate-first column order, exact string casing, `"any"`→`MIN` | 79.2% (95/120) |
 | **3** | Detected & fixed its *own* gen-2 over-correction; added few-shot + execute-and-repair | 88.3% (106/120) |
-| **4** | Surgical per-failure fixes (column identity, INNER vs LEFT JOIN, simplification) | **93.3%** (112/120) |
+| **4** | Surgical per-failure fixes (column identity, INNER vs LEFT JOIN, simplification) | 93.3% (112/120) |
+| **5** | Over-applied ordering rules → regressed | 88.3% (106/120) |
+| **6** | Recovered to a new peak | 94.2% (113/120) |
+| **7** | Over-tuned again → slight regression | 93.3% (112/120) |
+| **8** | Diagnosed & fixed gen-7's regressions (ANY/ALL, CAST, temporal) | **95.0%** (114/120) ⭐ |
 
-Same task model (Claude Haiku) every generation. The only variable is the agent's own code.
+Same task model (Claude Haiku) every generation. The only variable is the agent's own code. The climb is **non-monotonic** — two self-correction arcs (gen 2→3 and gen 7→8) where the agent diagnosed and fixed regressions it caused itself. (The live demo is pinned to the gen-4 snapshot; full results are in [RESULTS.md](RESULTS.md).)
 
 ![Accuracy by generation + generation explorer](docs/screenshots/05-improvement.png)
 

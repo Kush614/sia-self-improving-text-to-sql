@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "profile_id": "sonnet-meta",
+    "name": "Meta/feedback agent (Claude Sonnet)",
+    "agent_impl": "claude",
+    "model": "sonnet",
+    "provider": {
+      "provider_id": "anthropic",
+      "name": "Anthropic",
+      "client_kind": "anthropic",
+      "base_url": null,
+      "api_key_env": "ANTHROPIC_API_KEY"
+    }
+  },
+  "target": {
+    "profile_id": "default-target",
+    "name": "Default target agent (Claude Haiku)",
+    "model": "claude-haiku-4-5-20251001",
+    "provider": {
+      "provider_id": "anthropic",
+      "name": "Anthropic",
+      "client_kind": "anthropic",
+      "base_url": null,
+      "api_key_env": "ANTHROPIC_API_KEY"
+    },
+    "agent_reference": {
+      "kind": "default",
+      "source": null,
+      "entrypoint": null
+    }
+  }
+}
