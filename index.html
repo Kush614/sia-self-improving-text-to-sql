@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SIA · Self-Improving Text-to-SQL</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <div class="dot"></div>
+      <div>
+        <h1>SIA · Self-Improving Text-to-SQL</h1>
+        <p>the agent rewrites its own harness — the model never changes</p>
+      </div>
+    </div>
+    <div class="nav">
+      <a class="btn" href="explain.html">How it works ↗</a>
+      <button id="themeBtn" class="btn">☾ Dark</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="card tilt">
+        <div class="section-title">Execution accuracy, cold start → best generation</div>
+        <div id="heroBig" class="big"></div>
+        <span id="heroBadge" class="badge"></span>
+        <p class="lede">SIA runs a three-agent loop (meta → target → feedback). After each generation a
+          read-only SQL <b>execution-accuracy</b> verifier scores the predictions, and the feedback agent
+          edits the target agent's <b>scaffold</b> for the next generation. Same task model throughout —
+          every gain is a self-discovered harness change.</p>
+        <div id="chips" class="chips"></div>
+      </div>
+      <div class="card hero-right tilt">
+        <div class="section-title">At a glance</div>
+        <div id="heroStats"></div>
+      </div>
+    </section>
+
+    <!-- CHART -->
+    <section>
+      <div class="section-title">1 · Accuracy by generation</div>
+      <div class="card">
+        <div id="chart" class="chart-wrap"></div>
+        <div id="tip" class="tooltip"></div>
+      </div>
+    </section>
+
+    <!-- GEN EXPLORER -->
+    <section>
+      <div class="section-title">2 · What SIA changed each generation (its own self-edits)</div>
+      <div id="genTabs" class="gen-tabs"></div>
+      <div class="gen-grid">
+        <div class="card gen-meta tilt" id="genMeta"></div>
+        <div class="card tilt" id="genDetail"></div>
+      </div>
+    </section>
+
+    <!-- BEFORE / AFTER -->
+    <section id="baSection">
+      <div class="section-title">3 · Before → after, scored on the held-out set (cached results)</div>
+      <div class="card">
+        <div class="ba-controls">
+          <select id="baPicker" class="picker"></select>
+        </div>
+        <div id="baHead"></div>
+        <div id="baGrid" class="ba-grid"></div>
+        <div id="baGold" class="gold-wrap"></div>
+      </div>
+    </section>
+
+    <div id="foot" class="foot"></div>
+  </div>
+
+  <script src="cache/demo_data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

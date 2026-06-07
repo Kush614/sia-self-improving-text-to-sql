@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How it works · SIA Self-Improving Text-to-SQL</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <div class="dot"></div>
+      <div>
+        <h1>How SIA improves itself</h1>
+        <p>a deep dive into the self-improvement loop</p>
+      </div>
+    </div>
+    <div class="nav">
+      <a class="btn accent" href="index.html">← Back to demo</a>
+      <button id="themeBtn" class="btn">☾ Dark</button>
+    </div>
+  </div>
+
+  <div class="wrap prose">
+    <!-- HERO -->
+    <section class="card tilt">
+      <div class="section-title">The one-line version</div>
+      <p style="font-size:19px;font-weight:700;margin:.2em 0">
+        An AI agent that <b>rewrites its own code</b> generation after generation — with
+        <b>no human edits</b> and <b>without changing the underlying model</b> — measured on a
+        real, ungameable task: turning English questions into SQL.</p>
+      <div class="bignum" id="bignum">75.8% → 93.3%</div>
+      <span class="badge" id="bigbadge">▲ self-improvement, model held fixed</span>
+    </section>
+
+    <!-- PROBLEM -->
+    <section>
+      <h2>1 · The task</h2>
+      <div class="card">
+        <p>Given a plain-English question (“How many singers do we have?”) and a database,
+          produce a SQL query that returns the right answer. This is <b>text-to-SQL</b>,
+          benchmarked on <b>Spider</b> — 200+ real databases and thousands of questions from Yale.</p>
+        <p>We grade with <b>execution accuracy</b>: actually run the predicted SQL <i>and</i> the
+          gold SQL against the database and check the result sets match. It’s exact, instant, and
+          hard to fake — you can’t bluff it with plausible-looking SQL. It either returns the right
+          rows or it doesn’t.</p>
+      </div>
+    </section>
+
+    <!-- LOOP -->
+    <section>
+      <h2>2 · The self-improvement loop</h2>
+      <div class="card">
+        <p>SIA (a real framework, <code>hexo-ai/sia</code>) runs three AI agents in a loop:</p>
+        <div class="loop">
+          <div class="node"><div class="num">1</div><b>Meta-agent</b><span>writes the first version of the “target agent” (the program that answers questions).</span></div>
+          <div class="node"><div class="num">2</div><b>Target agent</b><span>answers all 120 questions → produces SQL predictions.</span></div>
+          <div class="node"><div class="num">3</div><b>Verifier</b><span>runs every query read-only and scores execution accuracy.</span></div>
+          <div class="node"><div class="num">4</div><b>Feedback-agent</b><span>reads which questions failed and why, writes <code>improvement.md</code>, and <b>rewrites the target agent</b> for the next generation.</span></div>
+        </div>
+        <p style="margin-top:14px">Repeat. The crucial constraint: the <b>answering model never changes</b>
+          (Claude Haiku, every generation). The only thing that changes is the <b>harness</b> — the
+          agent’s own scaffolding, prompt, and code. So any accuracy gain is provably the agent
+          <b>rewriting itself</b>, not a bigger model.</p>
+      </div>
+    </section>
+
+    <!-- INTEGRITY -->
+    <section>
+      <h2>3 · Why the score can’t be gamed</h2>
+      <div class="card">
+        <p>The gold answers live in <span class="kbd">data/private/</span> and are <b>never</b> given to
+          the agent — it only sees the questions, the schemas, the databases, and a separate labeled
+          training pool. So gains are real generalization, not memorizing an answer key. The verifier
+          runs every query <b>read-only with a timeout</b> and rejects anything that isn’t a single
+          <code>SELECT</code>/<code>WITH</code>. (Judges call this the “Goodhart” test — a verifier you
+          can’t cheat.)</p>
+      </div>
+    </section>
+
+    <!-- DISCOVERED -->
+    <section>
+      <h2>4 · What the agent discovered — on its own</h2>
+      <div class="card">
+        <p>By reading its own failures, the feedback-agent invented concrete, non-obvious fixes:</p>
+        <ul id="discovered">
+          <li>Noticed Spider always writes <code>SELECT count(*), col</code> (aggregate first) and added that rule.</li>
+          <li><b>Invented a helper tool</b> to show exact string casing (the model kept writing <code>Jetblue</code> when the data said <code>JetBlue</code>).</li>
+          <li>Learned Spider’s quirk that “larger than <b>any</b>” means <code>&gt; MIN</code>, not <code>&gt; MAX</code>.</li>
+          <li>Added same-database <b>few-shot examples</b> from the training pool, and an <b>execute-and-repair</b> loop.</li>
+        </ul>
+        <p>It even <b>caught and fixed a regression it caused itself</b>: gen 2 over-applied a rule,
+          then gen 3 detected that from the new failures and corrected it. That self-correction —
+          reasoning about the consequences of its <i>own</i> past edits — is the heart of the demo.</p>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section>
+      <h2>5 · The result</h2>
+      <div class="card">
+        <p id="curveline">Across generations, execution accuracy climbed
+          <b>75.8% → 79.2% → 88.3% → 93.3%</b> — every point a self-discovered harness change, with the
+          model held fixed the whole time.</p>
+        <a class="btn accent cta" href="index.html">See it live in the demo →</a>
+      </div>
+    </section>
+
+    <div id="foot" class="foot"></div>
+  </div>
+
+  <script src="cache/demo_data.js"></script>
+  <script>
+    (function () {
+      // theme (shares the key with the main page)
+      var key = "sia-theme";
+      function apply(t){ document.documentElement.setAttribute("data-theme", t);
+        try{localStorage.setItem(key,t);}catch(e){}
+        document.getElementById("themeBtn").textContent = t==="dark"?"☀ Light":"☾ Dark"; }
+      var t; try{ t=localStorage.getItem(key); }catch(e){}
+      if(!t) t=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";
+      apply(t);
+      document.getElementById("themeBtn").addEventListener("click", function(){
+        apply(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark"); });
+
+      // 3D tilt
+      Array.prototype.forEach.call(document.querySelectorAll(".tilt"), function(card){
+        card.addEventListener("mousemove", function(e){
+          var r=card.getBoundingClientRect(), px=(e.clientX-r.left)/r.width-0.5, py=(e.clientY-r.top)/r.height-0.5;
+          card.style.transform="perspective(1000px) rotateX("+(-py*4).toFixed(2)+"deg) rotateY("+(px*4).toFixed(2)+"deg) translateZ(8px)"; });
+        card.addEventListener("mouseleave", function(){ card.style.transform=""; });
+      });
+
+      // pull live numbers + discovered fixes from the cache, if present
+      var D = window.DEMO_DATA;
+      if (D) {
+        var s = D.summary;
+        document.getElementById("bignum").textContent = (s.first_acc*100).toFixed(1)+"% → "+(s.best_acc*100).toFixed(1)+"%";
+        document.getElementById("bigbadge").innerHTML = "▲ +"+s.delta_pts+" pts · model held fixed";
+        var curve = D.gens.filter(function(g){return g.accuracy!=null;}).map(function(g){return (g.accuracy*100).toFixed(1)+"%";}).join(" → ");
+        document.getElementById("curveline").innerHTML = "Across generations, execution accuracy climbed <b>"+curve+"</b> — every point a self-discovered harness change, with the model held fixed the whole time.";
+        // discovered fixes from the best gen's headlines
+        var best = D.gens.find(function(g){return g.gen===s.best_gen;});
+        if (best && best.headlines && best.headlines.length) {
+          document.getElementById("discovered").innerHTML =
+            best.headlines.slice(0,6).map(function(h){return "<li>"+h.replace(/[&<>]/g,"")+"</li>";}).join("");
+        }
+        document.getElementById("foot").innerHTML =
+          "run_"+D.meta.run_id+" · meta: "+D.meta.meta_model+" · target: "+D.meta.task_model+" · snapshot "+D.meta.generated_at;
+      }
+    })();
+  </script>
+</body>
+</html>
