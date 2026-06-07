@@ -1,0 +1,9 @@
+{
+  "profile_id": "evolved-target",
+  "name": "Phylo-evolved target (gen_2:pop_1:agent_2, fitness 0.675)",
+  "model": "claude-haiku-4-5-20251001",
+  "provider_id": "anthropic",
+  "agent_reference": {
+    "source": "E:\\sia\\phylo\\exports\\sia_target_agent.py"
+  }
+}

@@ -13,3 +13,9 @@ __pycache__/
 *.pyc
 *.pyo
 .streamlit/
+
+# Phylo build artifacts + secrets
+phylo/frontend/node_modules/
+phylo/frontend/.next/
+phylo/frontend/.env.local
+phylo/.venv/

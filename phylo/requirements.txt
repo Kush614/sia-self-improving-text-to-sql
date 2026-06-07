@@ -1,0 +1,9 @@
+# Phylo dependencies. Install when network is available:
+#   pip install -r requirements.txt
+anthropic            # target agent (Spider eval) + Claude mutation
+openai               # GPT mutation diversity
+redis                # RedisStore: genomes/fitness/lineage/pub-sub
+redisvl              # Redis vector search over genome embeddings
+weave                # tracing every agent + mutation call
+wandb                # fitness dashboards
+python-dotenv        # load .env

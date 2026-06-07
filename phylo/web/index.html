@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Phylo — live agent phylogeny</title>
+  <style>
+    :root { --bg:#0b0b10; --panel:#16161f; --ink:#f4f2ea; --muted:#9b97ad; --accent:#ff90e8; --border:#2a2a33; }
+    * { box-sizing:border-box; }
+    html,body { margin:0; height:100%; background:#0b0b10; color:#f4f2ea;
+      font-family:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif; overflow:hidden; }
+    #c { position:fixed; inset:0; display:block; }
+    .hud { position:fixed; z-index:10; }
+    #title { top:16px; left:18px; max-width:48ch; }
+    #title h1 { margin:0; font-size:18px; font-weight:900; letter-spacing:-.02em; }
+    #title p { margin:4px 0 0; font-size:12px; color:#9b97ad; }
+    #title a { color:#ff90e8; text-decoration:none; }
+    #legend { bottom:16px; left:18px; font-size:12px; background:rgba(22,22,31,.82);
+      border:1px solid #2a2a33; border-radius:10px; padding:10px 12px; line-height:1.7; }
+    #legend b{ font-weight:800;}
+    .sw { display:inline-block; width:11px; height:11px; border-radius:50%; vertical-align:-1px; margin-right:6px; border:1px solid #0008;}
+    #stats { top:16px; right:18px; text-align:right; font-size:12px; background:rgba(22,22,31,.82);
+      border:1px solid #2a2a33; border-radius:10px; padding:10px 12px; }
+    #stats .big{ font-size:22px; font-weight:900; }
+    #panel { top:70px; right:18px; width:330px; max-height:72vh; overflow:auto; background:rgba(22,22,31,.95);
+      border:1px solid #2a2a33; border-radius:12px; padding:14px; display:none; }
+    #panel h3 { margin:0 0 4px; font-size:15px; }
+    #panel .tag { display:inline-block; font-size:11px; font-weight:800; padding:2px 8px; border-radius:999px; margin:2px 4px 6px 0; }
+    #panel pre { background:#0c0c12; border:1px solid #2a2a33; border-radius:7px; padding:8px; font-size:11px;
+      white-space:pre-wrap; word-break:break-word; max-height:160px; overflow:auto; color:#cfcbe0; }
+    #panel .k { color:#9b97ad; }
+    #panel .close { float:right; cursor:pointer; color:#9b97ad; font-weight:900; }
+    #loading { top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; color:#9b97ad; }
+    .btn { cursor:pointer; background:#16161f; color:#f4f2ea; border:1px solid #2a2a33; border-radius:8px;
+      padding:6px 10px; font-weight:800; font-size:12px; }
+    #replay { bottom:16px; right:18px; }
+  </style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <div class="hud" id="title">
+    <h1>Phylo · evolutionary search over agent harnesses</h1>
+    <p>Each node is an agent harness. Height = generation, columns = populations, color = fitness.
+       Edges = lineage (mutation / crossover / migration). Traced in
+       <a id="weavelink" href="https://wandb.ai/kushise27-kush/phylo/weave" target="_blank">Weave</a>.</p>
+  </div>
+  <div class="hud" id="stats"></div>
+  <div class="hud" id="legend">
+    <div><span class="sw" style="background:#ff5d5d"></span>low fitness &nbsp; <span class="sw" style="background:#ffc900"></span>mid &nbsp; <span class="sw" style="background:#23e0b0"></span>high</div>
+    <div><b>edges:</b> <span class="sw" style="background:#ff90e8"></span>mutation &nbsp; <span class="sw" style="background:#7aa2ff"></span>crossover &nbsp; <span class="sw" style="background:#ffae4d"></span>migration &nbsp; <span class="sw" style="background:#8a8a99"></span>elite</div>
+  </div>
+  <div class="hud" id="panel"></div>
+  <button class="hud btn" id="replay">↻ replay growth</button>
+  <div class="hud" id="loading"><h1>Loading phylogeny…</h1><p id="lstatus">reading lineage.json</p></div>
+
+  <script type="importmap">
+  { "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }}
+  </script>
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+    const OPCOLOR = { mutation:0xff90e8, crossover:0x7aa2ff, migration:0xffae4d, elite:0x8a8a99, seed:0xffffff };
+    const esc = s => String(s==null?"":s).replace(/[&<>]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[m]));
+    const fitColor = f => new THREE.Color().setHSL(0.0 + (f||0)*0.38, 0.85, 0.55);
+
+    const renderer = new THREE.WebGLRenderer({canvas:document.getElementById("c"), antialias:true});
+    renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0b0b10);
+    scene.fog = new THREE.FogExp2(0x0b0b10, 0.0015);
+    const camera = new THREE.PerspectiveCamera(55, innerWidth/innerHeight, 0.1, 4000);
+    camera.position.set(70, 60, 150);
+    const controls = new OrbitControls(camera, renderer.getDomElement ? renderer.getDomElement() : renderer.domElement);
+    controls.enableDamping = true; controls.autoRotate = true; controls.autoRotateSpeed = 0.6;
+    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+    const dl = new THREE.DirectionalLight(0xffffff, 0.8); dl.position.set(1,2,1); scene.add(dl);
+
+    function resize(){ renderer.setSize(innerWidth,innerHeight); camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); }
+    addEventListener("resize", resize); resize();
+
+    let NODES=[], byId={}, meshes=[], raycaster=new THREE.Raycaster(), mouse=new THREE.Vector2();
+
+    function layout(data){
+      const pops = data.populations, gens = data.generations;
+      const perPop = Math.max(...data.nodes.map(n=>n.agent))+1;
+      const X=46, Y=18, Z=11;
+      const pos = {};
+      for(const n of data.nodes){
+        const x = (n.pop - (pops.length-1)/2)*X;
+        const y = (n.gen - (gens[0]||1))*Y - (gens.length-1)*Y/2;
+        const z = (n.agent - (perPop-1)/2)*Z;
+        pos[n.id] = new THREE.Vector3(x,y,z);
+      }
+      return pos;
+    }
+
+    function build(data){
+      NODES = data.nodes; byId = Object.fromEntries(NODES.map(n=>[n.id,n]));
+      const pos = layout(data);
+      // edges
+      for(const e of data.edges){
+        const a=pos[e.source], b=pos[e.target]; if(!a||!b) continue;
+        const g=new THREE.BufferGeometry().setFromPoints([a,b]);
+        const m=new THREE.LineBasicMaterial({color:OPCOLOR[e.operator]||0x8a8a99, transparent:true, opacity:0.5});
+        scene.add(new THREE.Line(g,m));
+      }
+      // nodes
+      const geo=new THREE.SphereGeometry(2.2, 20, 20);
+      const best = data.best && data.best.id;
+      for(const n of NODES){
+        const mat=new THREE.MeshStandardMaterial({color:fitColor(n.fitness), emissive:fitColor(n.fitness), emissiveIntensity:0.35, roughness:0.4});
+        const mesh=new THREE.Mesh(geo,mat);
+        mesh.position.copy(pos[n.id]); mesh.scale.setScalar(0.01); mesh.userData=n;
+        if(n.id===best){ mesh.scale.setScalar(0.01); n._best=true; }
+        scene.add(mesh); meshes.push(mesh);
+      }
+      // gen-by-gen "grow" reveal
+      growReveal(data);
+      document.getElementById("loading").style.display="none";
+      const b=data.best;
+      document.getElementById("stats").innerHTML =
+        `<div class="k">best agent</div><div class="big">${b? (b.fitness*100).toFixed(1)+"%":"—"}</div>`+
+        `<div class="k">${b?esc(b.id):""}</div>`+
+        `<div style="margin-top:6px" class="k">${NODES.length} agents · ${data.generations.length} gens · ${data.populations.length} pops</div>`+
+        `<div class="k">≥85%: ${NODES.filter(n=>(n.fitness||0)>=0.85).length}</div>`;
+    }
+
+    function growReveal(data){
+      const gens=data.generations;
+      gens.forEach((g,i)=>{
+        setTimeout(()=>{
+          meshes.filter(m=>m.userData.gen===g).forEach(m=>{
+            const target = m.userData._best?1.9:1.0; let s=0.01;
+            const grow=()=>{ s+=(target-s)*0.2; m.scale.setScalar(s); if(Math.abs(target-s)>0.02) requestAnimationFrame(grow); else m.scale.setScalar(target); };
+            grow();
+          });
+        }, i*650);
+      });
+    }
+
+    function showPanel(n){
+      const p=document.getElementById("panel"); p.style.display="block";
+      const parents=[n.parent_a,n.parent_b].filter(Boolean).map(esc).join(", ")||"—";
+      const xp = (n.crossover_points&&n.crossover_points.length)? n.crossover_points.join(", "):"";
+      p.innerHTML = `<span class="close" onclick="this.parentNode.style.display='none'">✕</span>
+        <h3>${esc(n.id)}</h3>
+        <span class="tag" style="background:#${(OPCOLOR[n.operator]||0x8a8a99).toString(16).padStart(6,'0')};color:#0b0b10">${esc(n.operator)}</span>
+        <span class="tag" style="background:#23e0b0;color:#0b0b10">fitness ${n.fitness!=null?(n.fitness*100).toFixed(1)+"%":"—"}</span>
+        <div><span class="k">gen</span> ${n.gen} &nbsp; <span class="k">pop</span> ${n.pop} &nbsp; <span class="k">agent</span> ${n.agent}</div>
+        <div><span class="k">parents:</span> ${parents}</div>
+        ${xp?`<div><span class="k">sections from parent B:</span> ${esc(xp)}</div>`:""}
+        <div style="margin-top:8px"><span class="k">system_prompt</span></div><pre>${esc(n.system_prompt||"")}</pre>
+        <div><span class="k">meta_instructions</span></div><pre>${esc(n.meta_instructions||"")}</pre>
+        <div><span class="k">output_format</span></div><pre>${esc(n.output_format||"")}</pre>`;
+    }
+
+    addEventListener("click",(ev)=>{
+      mouse.x=(ev.clientX/innerWidth)*2-1; mouse.y=-(ev.clientY/innerHeight)*2+1;
+      raycaster.setFromCamera(mouse,camera);
+      const hit=raycaster.intersectObjects(meshes)[0];
+      if(hit){ controls.autoRotate=false; showPanel(hit.object.userData); }
+    });
+    document.getElementById("replay").onclick=()=>{ meshes.forEach(m=>m.scale.setScalar(0.01)); growReveal({generations:[...new Set(NODES.map(n=>n.gen))].sort((a,b)=>a-b)}); };
+
+    (function loop(){ requestAnimationFrame(loop); controls.update(); renderer.render(scene,camera); })();
+
+    fetch("lineage.json").then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })
+      .then(build)
+      .catch(e=>{ document.getElementById("lstatus").textContent =
+        "lineage.json not found yet — run: python tools/run_phylo.py  (err: "+e.message+")"; });
+  </script>
+</body>
+</html>

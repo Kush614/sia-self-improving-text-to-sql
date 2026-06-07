@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Phylo — evolutionary search over agent harnesses (built on SIA)</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .editor { width:100%; min-height:200px; resize:vertical; font-family: ui-monospace, Consolas, monospace; font-size:13px;
+      line-height:1.55; border:3px solid var(--border); border-radius:var(--radius); padding:12px; background:var(--surface-2);
+      color:var(--ink); box-shadow: var(--shadow-sm); }
+    .seg { display:inline-flex; gap:0; border:3px solid var(--border); border-radius:999px; overflow:hidden; box-shadow:var(--shadow-sm); }
+    .seg button { border:0; background:var(--surface); color:var(--ink); font-weight:800; padding:6px 14px; cursor:pointer; font:inherit; }
+    .seg button.on { background:var(--accent); }
+    .curve { display:flex; gap:6px; align-items:flex-end; height:120px; }
+    .curve .bar { flex:1; background:var(--accent); border:2.5px solid var(--border); border-radius:6px 6px 0 0; box-shadow:var(--shadow-sm); position:relative; }
+    .curve .bar span { position:absolute; top:-18px; left:0; right:0; text-align:center; font-size:11px; font-weight:900; }
+    .curve .bar small { position:absolute; bottom:-20px; left:0; right:0; text-align:center; font-size:11px; color:var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <div class="dot"></div>
+      <div>
+        <h1>Phylo · evolutionary search over agent harnesses</h1>
+        <p>the sequel to SIA — a population, not a pipeline</p>
+      </div>
+    </div>
+    <div class="nav">
+      <a class="btn" href="index.html">← SIA demo</a>
+      <button id="themeBtn" class="btn">☾ Dark</button>
+    </div>
+  </div>
+
+  <div class="wrap prose">
+    <section class="card tilt">
+      <div class="section-title">From one chain to a population</div>
+      <p style="font-size:18px;font-weight:700;margin:.2em 0">
+        SIA improves a single agent sequentially (75.8% → 95.0% over 8 generations). <b>Phylo</b> evolves a
+        <b>population</b> of agent harnesses — selection, crossover, mutation, migration — exploring many lineages
+        in parallel and exposing the search as a live 3D phylogeny.</p>
+      <div class="bignum" id="climb">— → —</div>
+      <span class="badge" id="badge">population search</span>
+      <div class="chips" id="chips" style="margin-top:14px"></div>
+    </section>
+
+    <section>
+      <h2>1 · The loop</h2>
+      <div class="card">
+        <p>Each generation: <b>evaluate</b> every harness on the same held-out Spider set (real execution accuracy,
+        reusing SIA's verifier) → <b>select</b> the top performers → recombine their genome <b>sections</b>
+        (crossover), <b>mutate</b> with Claude/GPT-5, occasionally <b>migrate</b> a strong agent between populations,
+        and carry the elite forward. A harness genome has five recombinable sections: system_prompt, tool_definitions,
+        meta_instructions, error_handling, output_format.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>2 · Cached results (fitness per generation)</h2>
+      <div class="card">
+        <div class="curve" id="curve"></div>
+        <p style="margin-top:34px" class="lede" id="curvenote"></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>3 · Live harness editor (cached demo)</h2>
+      <div class="card">
+        <p class="lede">The evolved winner's harness vs the cold-start seed. Switch sections, switch seed/best,
+          edit freely — this is the prompt-only scaffold that drove the climb (the model never changed).</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0">
+          <div class="seg" id="which"><button data-w="best" class="on">best (evolved)</button><button data-w="seed">seed</button></div>
+          <div class="seg" id="sec">
+            <button data-s="system_prompt" class="on">system_prompt</button>
+            <button data-s="meta_instructions">meta_instructions</button>
+            <button data-s="output_format">output_format</button>
+          </div>
+        </div>
+        <textarea id="editor" class="editor" spellcheck="false"></textarea>
+      </div>
+    </section>
+
+    <section>
+      <h2>4 · How it plugs back into SIA</h2>
+      <div class="card">
+        <p>Phylo reuses SIA's exact Spider data + execution-accuracy verifier, so it's evolving harnesses for the
+        SIA text-to-SQL task. The bridge <code>export_to_sia.py</code> takes Phylo's best genome and emits a
+        SIA-compatible <code>target_agent.py</code> + target profile, so <b>SIA seeds its next run from the evolved
+        harness</b> instead of the minimal one. Phylo searches; SIA runs the winner.</p>
+        <a class="btn accent cta" id="liveapp" href="http://localhost:3001" target="_blank">▶ open the live Phylo app (CopilotKit + 3D)</a>
+        <a class="btn cta" href="https://github.com/Kush614/sia-self-improving-text-to-sql" target="_blank" style="margin-left:8px">code ↗</a>
+      </div>
+    </section>
+
+    <div id="foot" class="foot"></div>
+  </div>
+
+  <script src="cache/phylo_data.js"></script>
+  <script>
+    (function () {
+      var key = "sia-theme";
+      function apply(t){ document.documentElement.setAttribute("data-theme", t); try{localStorage.setItem(key,t);}catch(e){}
+        document.getElementById("themeBtn").textContent = t==="dark"?"☀ Light":"☾ Dark"; }
+      var t; try{ t=localStorage.getItem(key);}catch(e){}
+      if(!t) t=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light"; apply(t);
+      document.getElementById("themeBtn").addEventListener("click", function(){ apply(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark"); });
+
+      var D = window.PHYLO_DATA;
+      if(!D){ document.getElementById("climb").textContent="run save_phylo_results.py"; return; }
+      var curve = D.curve || [];
+      var first = curve.length ? curve[0].best : 0, peak = curve.reduce(function(a,c){return Math.max(a,c.best);},0);
+      document.getElementById("climb").textContent = (first*100).toFixed(1)+"% → "+(peak*100).toFixed(1)+"%";
+      document.getElementById("badge").innerHTML = "▲ +"+((peak-first)*100).toFixed(1)+" pts · model fixed";
+      document.getElementById("chips").innerHTML = [
+        ["",D.meta.agents+" agents"],["",D.meta.generations+" generations"],["",D.meta.populations+" populations"],
+        ["","best "+(((D.best&&D.best.fitness)||0)*100).toFixed(1)+"%"]
+      ].map(function(c){return "<span class='chip'><b>"+c[1]+"</b></span>";}).join("");
+      // curve bars
+      document.getElementById("curve").innerHTML = curve.map(function(c){
+        var h = peak>0 ? Math.max(8, (c.best/peak)*100) : 8;
+        return "<div class='bar' style='height:"+h+"%'><span>"+(c.best*100).toFixed(1)+"%</span><small>gen "+c.gen+"</small></div>";
+      }).join("");
+      document.getElementById("curvenote").textContent = "Best harness: "+(D.best&&D.best.id)+" — every gain is a self-discovered, prompt-only harness change (the task model is fixed every generation).";
+      // editor
+      var which="best", sec="system_prompt";
+      function srcFor(w){ return w==="seed" ? D.seed : (D.best||{}); }
+      function refresh(){ document.getElementById("editor").value = (srcFor(which)[sec]||""); }
+      document.querySelectorAll("#which button").forEach(function(b){ b.onclick=function(){ which=b.dataset.w; document.querySelectorAll("#which button").forEach(function(x){x.classList.toggle("on",x===b);}); refresh(); }; });
+      document.querySelectorAll("#sec button").forEach(function(b){ b.onclick=function(){ sec=b.dataset.s; document.querySelectorAll("#sec button").forEach(function(x){x.classList.toggle("on",x===b);}); refresh(); }; });
+      refresh();
+      document.getElementById("foot").innerHTML = "snapshot "+D.meta.generated_at+" · Weave · Redis · CopilotKit · OpenAI GPT-5 · built on SIA";
+    })();
+  </script>
+</body>
+</html>
