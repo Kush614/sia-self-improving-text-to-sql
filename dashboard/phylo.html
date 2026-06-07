@@ -47,11 +47,20 @@
 
   <div class="wrap prose">
     <section class="card tilt">
-      <div class="section-title">From one chain to a population</div>
-      <p style="font-size:18px;font-weight:700;margin:.2em 0">
-        SIA improves a single agent sequentially (75.8% → 95.0% over 8 generations). <b>Phylo</b> evolves a
-        <b>population</b> of agent harnesses — selection, crossover, mutation, migration — exploring many lineages
-        in parallel and exposing the search as a live 3D phylogeny.</p>
+      <div class="section-title">What is Phylo?</div>
+      <p style="font-size:16px;line-height:1.6;margin:.2em 0 14px">
+        <b>Phylo is evolutionary search over AI-agent harnesses.</b> An "agent" here is a <b>fixed</b> language
+        model wrapped in a harness — the system prompt, reasoning instructions, tools, and output rules around it.
+        Instead of hand-tuning one agent or improving it step-by-step, Phylo treats that harness as a <b>genome</b>
+        and evolves a whole <b>population</b> of them with genetic operators — <b>selection, crossover, mutation,
+        migration</b> — scoring each by <b>real text-to-SQL execution accuracy</b> on held-out Spider questions.
+        The model never changes, so every gain comes purely from the evolved scaffold. Running many lineages in
+        parallel finds several strong, distinct agents at once and resists dead ends, and the whole search is
+        exposed as a <b>live 3D phylogeny</b> — every node an agent, every edge a parent→child mutation/crossover —
+        traced in <b>Weave</b>, stored in <b>Redis</b>, explored through a <b>CopilotKit</b> UI.</p>
+      <p style="font-size:14px;color:var(--muted);margin:0 0 4px">
+        Built on <b>SIA</b>, which proved <i>sequential</i> self-improvement (75.8% → 95.0% over 8 generations).
+        Phylo turns that one chain into a population.</p>
       <div class="bignum" id="climb">— → —</div>
       <span class="badge" id="badge">population search</span>
       <div class="chips" id="chips" style="margin-top:14px"></div>
