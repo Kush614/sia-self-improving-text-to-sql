@@ -4,6 +4,7 @@
 
 **Result: execution accuracy climbed `75.8% → 79.2% → 88.3% → 93.3%` (+17.5 points) across 4 generations — every gain a self-discovered harness change, with the task model (Claude Haiku) held fixed the entire time.**
 
+🎥 **Video demo:** https://www.loom.com/share/8454512059b245dcbd6228f2d616997c
 🔗 **Live demo:** https://kush614.github.io/sia-self-improving-text-to-sql/ · **Deep dive:** [/explain.html](https://kush614.github.io/sia-self-improving-text-to-sql/explain.html)
 📦 Built on [hexo-ai/sia](https://github.com/hexo-ai/sia) (Self-Improving AI, arXiv:2605.27276) · Task: [Spider](https://yale-lily.github.io/spider) text-to-SQL
 
