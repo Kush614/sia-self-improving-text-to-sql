@@ -1,0 +1,2 @@
+This directory holds a LABELED dashboard test fixture, not a real SIA run.
+Scores are genuine (scored by evaluate.py); improvement.md is placeholder narrative.

@@ -1,0 +1,15 @@
+# Secrets
+.env
+.env.*
+
+# Local environment / heavy + reproducible
+.venv/
+downloads/
+runs/
+sia/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.streamlit/

@@ -1,0 +1,120 @@
+{"id": "world_1__t00", "query": "SELECT Name FROM country ORDER BY Population ASC LIMIT 3"}
+{"id": "world_1__t01", "query": "SELECT T2.Language FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T1.Name  =  \"Aruba\" ORDER BY Percentage DESC LIMIT 1"}
+{"id": "world_1__t02", "query": "SELECT Name FROM country WHERE Continent  =  \"Asia\" ORDER BY LifeExpectancy LIMIT 1"}
+{"id": "world_1__t03", "query": "SELECT Name FROM country WHERE Continent  =  \"Asia\"  AND population  >  (SELECT min(population) FROM country WHERE Continent  =  \"Africa\")"}
+{"id": "world_1__t04", "query": "SELECT CountryCode FROM countrylanguage EXCEPT SELECT CountryCode FROM countrylanguage WHERE LANGUAGE  =  \"English\""}
+{"id": "world_1__t05", "query": "SELECT Name ,  population ,  HeadOfState FROM country ORDER BY SurfaceArea DESC LIMIT 1"}
+{"id": "world_1__t06", "query": "SELECT count(DISTINCT LANGUAGE) FROM countrylanguage"}
+{"id": "world_1__t07", "query": "SELECT count(*) ,   max(Percentage) FROM countrylanguage WHERE LANGUAGE  =  \"Spanish\" GROUP BY CountryCode"}
+{"id": "world_1__t08", "query": "SELECT sum(Population) ,  max(GNP) FROM country WHERE Continent  =  \"Asia\""}
+{"id": "world_1__t09", "query": "SELECT Name ,  SurfaceArea FROM country ORDER BY SurfaceArea DESC LIMIT 5"}
+{"id": "world_1__t10", "query": "SELECT COUNT(T2.Language) FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T1.Name  =  \"Aruba\""}
+{"id": "world_1__t11", "query": "SELECT avg(LifeExpectancy) FROM country WHERE Name NOT IN (SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  \"English\" AND T2.IsOfficial  =  \"T\")"}
+{"id": "world_1__t12", "query": "SELECT avg(LifeExpectancy) FROM country WHERE Continent  =  \"Africa\" AND GovernmentForm  =  \"Republic\""}
+{"id": "world_1__t13", "query": "select sum(population) ,  avg(surfacearea) from country where continent  =  \"north america\" and surfacearea  >  3000"}
+{"id": "world_1__t14", "query": "SELECT Name FROM country ORDER BY Population DESC LIMIT 3"}
+{"id": "car_1__t00", "query": "SELECT T1.FullName ,  T1.Id FROM CAR_MAKERS AS T1 JOIN MODEL_LIST AS T2 ON T1.Id  =  T2.Maker GROUP BY T1.Id HAVING count(*)  >  3;"}
+{"id": "car_1__t01", "query": "SELECT DISTINCT T1.model FROM MODEL_LIST AS T1 JOIN CAR_NAMES AS T2 ON T1.model  =  T2.model JOIN CARS_DATA AS T3 ON T2.MakeId  =  T3.id WHERE T3.year  >  1980;"}
+{"id": "car_1__t02", "query": "select max(mpg) from cars_data where cylinders  =  8 or year  <  1980"}
+{"id": "car_1__t03", "query": "SELECT T1.FullName ,  T1.Id ,  count(*) FROM CAR_MAKERS AS T1 JOIN MODEL_LIST AS T2 ON T1.Id  =  T2.Maker GROUP BY T1.Id;"}
+{"id": "car_1__t04", "query": "select count(*) from countries as t1 join car_makers as t2 on t1.countryid  =  t2.country group by t1.countryid having count(*)  >  2"}
+{"id": "car_1__t05", "query": "SELECT max(Accelerate) ,  Cylinders FROM CARS_DATA GROUP BY Cylinders;"}
+{"id": "car_1__t06", "query": "select avg(horsepower) from cars_data where year  <  1980;"}
+{"id": "car_1__t07", "query": "SELECT avg(mpg) FROM CARS_DATA WHERE Cylinders  =  4;"}
+{"id": "car_1__t08", "query": "SELECT T1.Accelerate FROM CARS_DATA AS T1 JOIN CAR_NAMES AS T2 ON T1.Id  =  T2.MakeId WHERE T2.Make  =  'amc hornet sportabout (sw)';"}
+{"id": "car_1__t09", "query": "SELECT Model FROM CAR_NAMES GROUP BY Model ORDER BY count(*) DESC LIMIT 1;"}
+{"id": "car_1__t10", "query": "SELECT T1.model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId  =  T2.Id WHERE T2.Weight  <  (SELECT avg(Weight) FROM CARS_DATA)"}
+{"id": "car_1__t11", "query": "SELECT T2.CountryName FROM CAR_MAKERS AS T1 JOIN COUNTRIES AS T2 ON T1.Country  =  T2.CountryId GROUP BY T1.Country ORDER BY Count(*) DESC LIMIT 1;"}
+{"id": "car_1__t12", "query": "SELECT avg(T2.edispl) FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId  =  T2.Id WHERE T1.Model  =  'volvo';"}
+{"id": "car_1__t13", "query": "SELECT count(*) FROM MODEL_LIST AS T1 JOIN CAR_MAKERS AS T2 ON T1.Maker  =  T2.Id JOIN COUNTRIES AS T3 ON T2.Country  =  T3.CountryId WHERE T3.CountryName  =  'usa';"}
+{"id": "car_1__t14", "query": "SELECT Maker ,  Model FROM MODEL_LIST;"}
+{"id": "dog_kennels__t00", "query": "SELECT count(DISTINCT professional_id) FROM Treatments"}
+{"id": "dog_kennels__t01", "query": "SELECT T1.owner_id ,  T2.first_name ,  T2.last_name FROM Dogs AS T1 JOIN Owners AS T2 ON T1.owner_id  =  T2.owner_id GROUP BY T1.owner_id ORDER BY count(*) DESC LIMIT 1"}
+{"id": "dog_kennels__t02", "query": "SELECT cost_of_treatment FROM Treatments ORDER BY date_of_treatment DESC LIMIT 1"}
+{"id": "dog_kennels__t03", "query": "SELECT count(*) FROM Dogs WHERE age  <  ( SELECT avg(age) FROM Dogs )"}
+{"id": "dog_kennels__t04", "query": "SELECT T1.treatment_type_description FROM Treatment_types AS T1 JOIN Treatments AS T2 ON T1.treatment_type_code  =  T2.treatment_type_code GROUP BY T1.treatment_type_code ORDER BY sum(cost_of_treatment) ASC LIMIT 1"}
+{"id": "dog_kennels__t05", "query": "SELECT email_address ,  cell_number ,  home_phone FROM professionals"}
+{"id": "dog_kennels__t06", "query": "SELECT count(*) FROM Owners WHERE owner_id NOT IN ( SELECT owner_id FROM Dogs )"}
+{"id": "dog_kennels__t07", "query": "SELECT DISTINCT breed_code ,  size_code FROM dogs"}
+{"id": "dog_kennels__t08", "query": "SELECT T1.breed_name FROM Breeds AS T1 JOIN Dogs AS T2 ON T1.breed_code  =  T2.breed_code GROUP BY T1.breed_name ORDER BY count(*) DESC LIMIT 1"}
+{"id": "dog_kennels__t09", "query": "SELECT count(DISTINCT professional_id) FROM Treatments"}
+{"id": "dog_kennels__t10", "query": "select name from dogs where dog_id not in ( select dog_id from treatments group by dog_id having sum(cost_of_treatment)  >  1000 )"}
+{"id": "dog_kennels__t11", "query": "SELECT name ,  age ,  weight FROM Dogs WHERE abandoned_yn  =  1"}
+{"id": "dog_kennels__t12", "query": "SELECT count(*) FROM Dogs WHERE dog_id NOT IN ( SELECT dog_id FROM Treatments )"}
+{"id": "dog_kennels__t13", "query": "SELECT avg(age) FROM Dogs"}
+{"id": "dog_kennels__t14", "query": "SELECT email_address FROM Professionals WHERE state  =  'Hawaii' OR state  =  'Wisconsin'"}
+{"id": "flight_2__t00", "query": "SELECT count(*) FROM FLIGHTS AS T1 JOIN AIRPORTS AS T2 ON T1.DestAirport  =  T2.AirportCode JOIN AIRPORTS AS T3 ON T1.SourceAirport  =  T3.AirportCode WHERE T2.City  =  \"Ashley\" AND T3.City  =  \"Aberdeen\""}
+{"id": "flight_2__t01", "query": "SELECT count(*) FROM FLIGHTS AS T1 JOIN AIRLINES AS T2 ON T1.Airline  =  T2.uid WHERE T2.Airline = \"JetBlue Airways\""}
+{"id": "flight_2__t02", "query": "SELECT count(*) FROM Flights AS T1 JOIN Airports AS T2 ON T1.DestAirport  =  T2.AirportCode WHERE T2.city  =  \"Aberdeen\" OR T2.city  =  \"Abilene\""}
+{"id": "flight_2__t03", "query": "SELECT count(*) FROM AIRLINES WHERE Country  =  \"USA\""}
+{"id": "flight_2__t04", "query": "SELECT count(*) FROM FLIGHTS AS T1 JOIN AIRPORTS AS T2 ON T1.DestAirport  =  T2.AirportCode WHERE T2.City  =  \"Aberdeen\""}
+{"id": "flight_2__t05", "query": "SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline GROUP BY T1.Airline HAVING count(*)  >  10"}
+{"id": "flight_2__t06", "query": "SELECT count(*) FROM FLIGHTS"}
+{"id": "flight_2__t07", "query": "SELECT T1.Abbreviation ,  T1.Country FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline GROUP BY T1.Airline ORDER BY count(*) LIMIT 1"}
+{"id": "flight_2__t08", "query": "SELECT T1.FlightNo FROM FLIGHTS AS T1 JOIN AIRLINES AS T2 ON T2.uid  =  T1.Airline WHERE T2.Airline  =  \"United Airlines\""}
+{"id": "flight_2__t09", "query": "SELECT count(*) FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T2.Airline  =  T1.uid WHERE T1.Airline  =  \"United Airlines\" AND T2.DestAirport  =  \"ASY\""}
+{"id": "flight_2__t10", "query": "SELECT count(*) FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T2.Airline  =  T1.uid WHERE T1.Airline  =  \"United Airlines\" AND T2.SourceAirport  =  \"AHD\""}
+{"id": "flight_2__t11", "query": "SELECT Country FROM AIRLINES WHERE Airline  =  \"JetBlue Airways\""}
+{"id": "flight_2__t12", "query": "SELECT AirportName FROM Airports WHERE AirportCode NOT IN (SELECT SourceAirport FROM Flights UNION SELECT DestAirport FROM Flights)"}
+{"id": "flight_2__t13", "query": "SELECT AirportName FROM AIRPORTS WHERE AirportCode  =  \"AKO\""}
+{"id": "flight_2__t14", "query": "SELECT count(*) FROM AIRLINES WHERE Country  =  \"USA\""}
+{"id": "student_transcripts_tracking__t00", "query": "SELECT avg(transcript_date) FROM Transcripts"}
+{"id": "student_transcripts_tracking__t01", "query": "SELECT DISTINCT T1.course_name FROM Courses AS T1 JOIN Student_Enrolment_Courses AS T2 ON T1.course_id  =  T2.course_id"}
+{"id": "student_transcripts_tracking__t02", "query": "SELECT T1.course_name ,  T1.course_id FROM Courses AS T1 JOIN Sections AS T2 ON T1.course_id  =  T2.course_id GROUP BY T1.course_id HAVING count(*)  <=  2"}
+{"id": "student_transcripts_tracking__t03", "query": "SELECT count(DISTINCT degree_summary_name) FROM Degree_Programs"}
+{"id": "student_transcripts_tracking__t04", "query": "SELECT count(DISTINCT department_id) FROM Degree_Programs"}
+{"id": "student_transcripts_tracking__t05", "query": "SELECT T2.transcript_date ,  T1.transcript_id FROM Transcript_Contents AS T1 JOIN Transcripts AS T2 ON T1.transcript_id  =  T2.transcript_id GROUP BY T1.transcript_id HAVING count(*)  >=  2"}
+{"id": "student_transcripts_tracking__t06", "query": "SELECT transcript_date ,  other_details FROM Transcripts ORDER BY transcript_date ASC LIMIT 1"}
+{"id": "student_transcripts_tracking__t07", "query": "SELECT first_name ,  middle_name ,  last_name FROM Students ORDER BY date_first_registered ASC LIMIT 1"}
+{"id": "student_transcripts_tracking__t08", "query": "SELECT department_description FROM Departments WHERE department_name LIKE '%computer%'"}
+{"id": "student_transcripts_tracking__t09", "query": "SELECT line_1 ,  line_2 FROM addresses"}
+{"id": "student_transcripts_tracking__t10", "query": "SELECT T2.transcript_date ,  T1.transcript_id FROM Transcript_Contents AS T1 JOIN Transcripts AS T2 ON T1.transcript_id  =  T2.transcript_id GROUP BY T1.transcript_id HAVING count(*)  >=  2"}
+{"id": "student_transcripts_tracking__t11", "query": "SELECT T1.degree_summary_name FROM Degree_Programs AS T1 JOIN Student_Enrolment AS T2 ON T1.degree_program_id  =  T2.degree_program_id GROUP BY T1.degree_summary_name ORDER BY count(*) DESC LIMIT 1"}
+{"id": "student_transcripts_tracking__t12", "query": "SELECT first_name ,  middle_name ,  last_name FROM Students ORDER BY date_left ASC LIMIT 1"}
+{"id": "student_transcripts_tracking__t13", "query": "SELECT section_name FROM Sections ORDER BY section_name DESC"}
+{"id": "student_transcripts_tracking__t14", "query": "SELECT T1.semester_name ,  T1.semester_id FROM Semesters AS T1 JOIN Student_Enrolment AS T2 ON T1.semester_id  =  T2.semester_id GROUP BY T1.semester_id ORDER BY count(*) DESC LIMIT 1"}
+{"id": "wta_1__t00", "query": "SELECT T1.first_name ,  T1.country_code ,  T1.birth_date FROM players AS T1 JOIN matches AS T2 ON T1.player_id  =  T2.winner_id ORDER BY T2.winner_rank_points DESC LIMIT 1"}
+{"id": "wta_1__t01", "query": "SELECT first_name ,  country_code FROM players ORDER BY birth_date LIMIT 1"}
+{"id": "wta_1__t02", "query": "SELECT count(DISTINCT winner_name) FROM matches WHERE tourney_name  =  'WTA Championships' AND winner_hand  =  'L'"}
+{"id": "wta_1__t03", "query": "SELECT winner_name FROM matches WHERE YEAR  =  2013 INTERSECT SELECT winner_name FROM matches WHERE YEAR  =  2016"}
+{"id": "wta_1__t04", "query": "SELECT T1.first_name ,  T1.country_code ,  T1.birth_date FROM players AS T1 JOIN matches AS T2 ON T1.player_id  =  T2.winner_id ORDER BY T2.winner_rank_points DESC LIMIT 1"}
+{"id": "wta_1__t05", "query": "SELECT first_name ,  last_name FROM players WHERE hand  =  'L' ORDER BY birth_date"}
+{"id": "wta_1__t06", "query": "SELECT count(*) ,  hand FROM players GROUP BY hand"}
+{"id": "wta_1__t07", "query": "SELECT count(*) FROM matches WHERE YEAR  =  2013 OR YEAR  =  2016"}
+{"id": "wta_1__t08", "query": "SELECT T1.country_code ,  T1.first_name FROM players AS T1 JOIN matches AS T2 ON T1.player_id  =  T2.winner_id WHERE T2.tourney_name  =  'WTA Championships' INTERSECT SELECT T1.country_code ,  T1.first_name FROM players AS T1 JOIN matches AS T2 ON T1.player_id  =  T2.winner_id WHERE T2.tourney_name  =  'Australian Open'"}
+{"id": "wta_1__t09", "query": "SELECT DISTINCT winner_name ,  winner_rank FROM matches ORDER BY winner_age LIMIT 3"}
+{"id": "wta_1__t10", "query": "SELECT tourney_name FROM matches GROUP BY tourney_name HAVING count(*)  >  10"}
+{"id": "wta_1__t11", "query": "SELECT T1.country_code ,  T1.first_name FROM players AS T1 JOIN matches AS T2 ON T1.player_id  =  T2.winner_id WHERE T2.tourney_name  =  'WTA Championships' INTERSECT SELECT T1.country_code ,  T1.first_name FROM players AS T1 JOIN matches AS T2 ON T1.player_id  =  T2.winner_id WHERE T2.tourney_name  =  'Australian Open'"}
+{"id": "wta_1__t12", "query": "SELECT count(*) ,  country_code FROM players GROUP BY country_code"}
+{"id": "wta_1__t13", "query": "SELECT DISTINCT winner_name ,  winner_rank FROM matches ORDER BY winner_age LIMIT 3"}
+{"id": "wta_1__t14", "query": "SELECT winner_name ,  winner_rank_points FROM matches GROUP BY winner_name ORDER BY count(*) DESC LIMIT 1"}
+{"id": "concert_singer__t00", "query": "select count(*) from concert where stadium_id = (select stadium_id from stadium order by capacity desc limit 1)"}
+{"id": "concert_singer__t01", "query": "SELECT T2.concert_name ,  T2.theme ,  count(*) FROM singer_in_concert AS T1 JOIN concert AS T2 ON T1.concert_id  =  T2.concert_id GROUP BY T2.concert_id"}
+{"id": "concert_singer__t02", "query": "SELECT T2.name ,  count(*) FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id GROUP BY T1.stadium_id"}
+{"id": "concert_singer__t03", "query": "SELECT song_name FROM singer WHERE age  >  (SELECT avg(age) FROM singer)"}
+{"id": "concert_singer__t04", "query": "select count(*) from concert where stadium_id = (select stadium_id from stadium order by capacity desc limit 1)"}
+{"id": "concert_singer__t05", "query": "SELECT country FROM singer WHERE age  >  40 INTERSECT SELECT country FROM singer WHERE age  <  30"}
+{"id": "concert_singer__t06", "query": "SELECT T2.name ,  T2.capacity FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.year  >=  2014 GROUP BY T2.stadium_id ORDER BY count(*) DESC LIMIT 1"}
+{"id": "concert_singer__t07", "query": "SELECT YEAR FROM concert GROUP BY YEAR ORDER BY count(*) DESC LIMIT 1"}
+{"id": "concert_singer__t08", "query": "select avg(capacity) ,  max(capacity) from stadium"}
+{"id": "concert_singer__t09", "query": "SELECT name FROM stadium WHERE stadium_id NOT IN (SELECT stadium_id FROM concert)"}
+{"id": "concert_singer__t10", "query": "SELECT song_name ,  song_release_year FROM singer ORDER BY age LIMIT 1"}
+{"id": "concert_singer__t11", "query": "SELECT T2.name ,  count(*) FROM singer_in_concert AS T1 JOIN singer AS T2 ON T1.singer_id  =  T2.singer_id GROUP BY T2.singer_id"}
+{"id": "concert_singer__t12", "query": "SELECT count(*) FROM concert WHERE YEAR  =  2014 OR YEAR  =  2015"}
+{"id": "concert_singer__t13", "query": "SELECT song_name ,  song_release_year FROM singer ORDER BY age LIMIT 1"}
+{"id": "concert_singer__t14", "query": "SELECT name ,  country FROM singer WHERE song_name LIKE '%Hey%'"}
+{"id": "pets_1__t00", "query": "SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T2.petid  =  T3.petid WHERE T1.sex  =  'F' AND T3.pettype  =  'dog'"}
+{"id": "pets_1__t01", "query": "SELECT count(*) FROM pets WHERE weight  >  10"}
+{"id": "pets_1__t02", "query": "SELECT count(*) ,  T1.stuid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid GROUP BY T1.stuid"}
+{"id": "pets_1__t03", "query": "SELECT petid ,  weight FROM pets WHERE pet_age  >  1"}
+{"id": "pets_1__t04", "query": "SELECT T1.fname ,  T1.age FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'dog' AND T1.stuid NOT IN (SELECT T1.stuid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat')"}
+{"id": "pets_1__t05", "query": "SELECT T2.petid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid WHERE T1.Lname  =  'Smith'"}
+{"id": "pets_1__t06", "query": "SELECT avg(pet_age) ,  max(pet_age) ,  pettype FROM pets GROUP BY pettype"}
+{"id": "pets_1__t07", "query": "SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid WHERE T1.age  >  20"}
+{"id": "pets_1__t08", "query": "SELECT avg(weight) ,  pettype FROM pets GROUP BY pettype"}
+{"id": "pets_1__t09", "query": "SELECT max(weight) ,  petType FROM pets GROUP BY petType"}
+{"id": "pets_1__t10", "query": "SELECT stuid FROM student EXCEPT SELECT T1.stuid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat'"}
+{"id": "pets_1__t11", "query": "select avg(age) from student where stuid not in (select stuid from has_pet)"}
+{"id": "pets_1__t12", "query": "SELECT T1.lname FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pet_age  =  3 AND T3.pettype  =  'cat'"}
+{"id": "pets_1__t13", "query": "SELECT T2.petid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid WHERE T1.Lname  =  'Smith'"}
+{"id": "pets_1__t14", "query": "SELECT weight FROM pets ORDER BY pet_age LIMIT 1"}

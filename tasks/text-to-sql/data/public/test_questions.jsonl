@@ -1,0 +1,120 @@
+{"id": "world_1__t00", "db_id": "world_1", "question": "What are the names of the nations with the 3 lowest populations?"}
+{"id": "world_1__t01", "db_id": "world_1", "question": "Which language is the most popular in Aruba?"}
+{"id": "world_1__t02", "db_id": "world_1", "question": "What is the name of country that has the shortest life expectancy in Asia?"}
+{"id": "world_1__t03", "db_id": "world_1", "question": "What are the Asian countries which have a population larger than that of any country in Africa?"}
+{"id": "world_1__t04", "db_id": "world_1", "question": "Return the country codes for countries that do not speak English."}
+{"id": "world_1__t05", "db_id": "world_1", "question": "Give the name, population, and head of state for the country that has the largest area."}
+{"id": "world_1__t06", "db_id": "world_1", "question": "What is the number of distinct languages used around the world?"}
+{"id": "world_1__t07", "db_id": "world_1", "question": "What is the total number of countries where Spanish is spoken by the largest percentage of people?"}
+{"id": "world_1__t08", "db_id": "world_1", "question": "What is the total population and maximum GNP in Asia?"}
+{"id": "world_1__t09", "db_id": "world_1", "question": "What are the names and areas of countries with the top 5 largest area?"}
+{"id": "world_1__t10", "db_id": "world_1", "question": "How many languages are spoken in Aruba?"}
+{"id": "world_1__t11", "db_id": "world_1", "question": "What is average life expectancy in the countries where English is not the official language?"}
+{"id": "world_1__t12", "db_id": "world_1", "question": "Give the average life expectancy for countries in Africa which are republics?"}
+{"id": "world_1__t13", "db_id": "world_1", "question": "What is the total population and average area of countries in the continent of North America whose area is bigger than 3000 ?"}
+{"id": "world_1__t14", "db_id": "world_1", "question": "Return the names of the 3 most populated countries."}
+{"id": "car_1__t00", "db_id": "car_1", "question": "What are the names and ids of all makers with more than 3 models?"}
+{"id": "car_1__t01", "db_id": "car_1", "question": "What are the different models for the cards produced after 1980?"}
+{"id": "car_1__t02", "db_id": "car_1", "question": "What is the maximum miles per gallon of the car with 8 cylinders or produced before 1980 ?"}
+{"id": "car_1__t03", "db_id": "car_1", "question": "What is the full name of each car maker, along with its id and how many models it produces?"}
+{"id": "car_1__t04", "db_id": "car_1", "question": "How many countries has more than 2 car makers ?"}
+{"id": "car_1__t05", "db_id": "car_1", "question": "What is the maximum accelerate for all the different cylinders?"}
+{"id": "car_1__t06", "db_id": "car_1", "question": "What is the average horsepower for all cars produced before 1980 ?"}
+{"id": "car_1__t07", "db_id": "car_1", "question": "What is the average miles per gallon of all the cards with 4 cylinders?"}
+{"id": "car_1__t08", "db_id": "car_1", "question": "What is the accelerate of the car make amc hornet sportabout (sw)?"}
+{"id": "car_1__t09", "db_id": "car_1", "question": "Which model has the most version(make) of cars?"}
+{"id": "car_1__t10", "db_id": "car_1", "question": "Find the model of the car whose weight is below the average weight."}
+{"id": "car_1__t11", "db_id": "car_1", "question": "Which of the countries has the most car makers? List the country name."}
+{"id": "car_1__t12", "db_id": "car_1", "question": "What is the average edispl of the cars of model volvo?"}
+{"id": "car_1__t13", "db_id": "car_1", "question": "How many car models are produced in the usa?"}
+{"id": "car_1__t14", "db_id": "car_1", "question": "What are all the makers and models?"}
+{"id": "dog_kennels__t00", "db_id": "dog_kennels", "question": "Find the number of professionals who have ever treated dogs."}
+{"id": "dog_kennels__t01", "db_id": "dog_kennels", "question": "Which owner owns the most dogs? List the owner id, first name and last name."}
+{"id": "dog_kennels__t02", "db_id": "dog_kennels", "question": "Show me the cost of the most recently performed treatment."}
+{"id": "dog_kennels__t03", "db_id": "dog_kennels", "question": "How many dogs have an age below the average?"}
+{"id": "dog_kennels__t04", "db_id": "dog_kennels", "question": "Give me the description of the treatment type whose total cost is the lowest."}
+{"id": "dog_kennels__t05", "db_id": "dog_kennels", "question": "What are the email, cell phone and home phone of each professional?"}
+{"id": "dog_kennels__t06", "db_id": "dog_kennels", "question": "Find the number of owners who do not own any dogs at this moment."}
+{"id": "dog_kennels__t07", "db_id": "dog_kennels", "question": "What are all the possible breed type and size type combinations?"}
+{"id": "dog_kennels__t08", "db_id": "dog_kennels", "question": "What is the name of the breed with the most dogs?"}
+{"id": "dog_kennels__t09", "db_id": "dog_kennels", "question": "How many professionals have performed any treatment to dogs?"}
+{"id": "dog_kennels__t10", "db_id": "dog_kennels", "question": "What are the names of the dogs for which the owner has not spend more than 1000 for treatment ?"}
+{"id": "dog_kennels__t11", "db_id": "dog_kennels", "question": "List the dog name, age and weight of the dogs who have been abandoned? 1 stands for yes, and 0 stands for no."}
+{"id": "dog_kennels__t12", "db_id": "dog_kennels", "question": "How many dogs have not gone through any treatment?"}
+{"id": "dog_kennels__t13", "db_id": "dog_kennels", "question": "What is the average age of all the dogs?"}
+{"id": "dog_kennels__t14", "db_id": "dog_kennels", "question": "List the emails of the professionals who live in the state of Hawaii or the state of Wisconsin."}
+{"id": "flight_2__t00", "db_id": "flight_2", "question": "How many flights fly from Aberdeen to Ashley?"}
+{"id": "flight_2__t01", "db_id": "flight_2", "question": "Give the number of Jetblue Airways flights."}
+{"id": "flight_2__t02", "db_id": "flight_2", "question": "Find the number of flights landing in the city of Aberdeen or Abilene."}
+{"id": "flight_2__t03", "db_id": "flight_2", "question": "Return the number of airlines in the USA."}
+{"id": "flight_2__t04", "db_id": "flight_2", "question": "How many flights arriving in Aberdeen city?"}
+{"id": "flight_2__t05", "db_id": "flight_2", "question": "Find all airlines that have at least 10 flights."}
+{"id": "flight_2__t06", "db_id": "flight_2", "question": "How many flights do we have?"}
+{"id": "flight_2__t07", "db_id": "flight_2", "question": "Find the abbreviation and country of the airline that has fewest number of flights?"}
+{"id": "flight_2__t08", "db_id": "flight_2", "question": "Which flight numbers correspond to United Airlines flights?"}
+{"id": "flight_2__t09", "db_id": "flight_2", "question": "Count the number of United Airlines flights arriving in ASY Airport."}
+{"id": "flight_2__t10", "db_id": "flight_2", "question": "How many 'United Airlines' flights depart from Airport 'AHD'?"}
+{"id": "flight_2__t11", "db_id": "flight_2", "question": "What country is Jetblue Airways affiliated with?"}
+{"id": "flight_2__t12", "db_id": "flight_2", "question": "Which airports do not have departing or arriving flights?"}
+{"id": "flight_2__t13", "db_id": "flight_2", "question": "What is the airport name for airport 'AKO'?"}
+{"id": "flight_2__t14", "db_id": "flight_2", "question": "How many airlines are from USA?"}
+{"id": "student_transcripts_tracking__t00", "db_id": "student_transcripts_tracking", "question": "On average, when were the transcripts printed?"}
+{"id": "student_transcripts_tracking__t01", "db_id": "student_transcripts_tracking", "question": "What are all the course names of the courses which ever have students enrolled in?"}
+{"id": "student_transcripts_tracking__t02", "db_id": "student_transcripts_tracking", "question": "What are the names and id of courses having at most 2 sections?"}
+{"id": "student_transcripts_tracking__t03", "db_id": "student_transcripts_tracking", "question": "How many different degrees are offered?"}
+{"id": "student_transcripts_tracking__t04", "db_id": "student_transcripts_tracking", "question": "How many departments offer any degree?"}
+{"id": "student_transcripts_tracking__t05", "db_id": "student_transcripts_tracking", "question": "Show the date and id of the transcript with at least 2 course results."}
+{"id": "student_transcripts_tracking__t06", "db_id": "student_transcripts_tracking", "question": "When is the first transcript released? List the date and details."}
+{"id": "student_transcripts_tracking__t07", "db_id": "student_transcripts_tracking", "question": "What is the first, middle, and last name of the first student to register?"}
+{"id": "student_transcripts_tracking__t08", "db_id": "student_transcripts_tracking", "question": "What is the description of the department whose name has the substring the computer?"}
+{"id": "student_transcripts_tracking__t09", "db_id": "student_transcripts_tracking", "question": "what are all the addresses including line 1 and line 2?"}
+{"id": "student_transcripts_tracking__t10", "db_id": "student_transcripts_tracking", "question": "What is the date and id of the transcript with at least 2 courses listed?"}
+{"id": "student_transcripts_tracking__t11", "db_id": "student_transcripts_tracking", "question": "What is the degree summary name that has the most number of students enrolled?"}
+{"id": "student_transcripts_tracking__t12", "db_id": "student_transcripts_tracking", "question": "What is the first, middle, and last name of the earliest school graduate?"}
+{"id": "student_transcripts_tracking__t13", "db_id": "student_transcripts_tracking", "question": "What are the names of the sections in reverse alphabetical order?"}
+{"id": "student_transcripts_tracking__t14", "db_id": "student_transcripts_tracking", "question": "What is the semester which most student registered in? Show both the name and the id."}
+{"id": "wta_1__t00", "db_id": "wta_1", "question": "What is the first name, country code, and birth date of the player with the most winner rank points across all matches?"}
+{"id": "wta_1__t01", "db_id": "wta_1", "question": "What is the first name and country code of the oldest player?"}
+{"id": "wta_1__t02", "db_id": "wta_1", "question": "How many different winners both participated in the WTA Championships and were left handed?"}
+{"id": "wta_1__t03", "db_id": "wta_1", "question": "What are the names of players who won in both 2013 and 2016?"}
+{"id": "wta_1__t04", "db_id": "wta_1", "question": "Find the first name, country code and birth date of the winner who has the highest rank points in all matches."}
+{"id": "wta_1__t05", "db_id": "wta_1", "question": "List the first and last name of all players who are left / L hand in the order of birth date."}
+{"id": "wta_1__t06", "db_id": "wta_1", "question": "How many players are there for each hand type?"}
+{"id": "wta_1__t07", "db_id": "wta_1", "question": "List the number of all matches who played in years of 2013 or 2016."}
+{"id": "wta_1__t08", "db_id": "wta_1", "question": "What are the first names and country codes for players who won both the WTA Championships and the Australian Open?"}
+{"id": "wta_1__t09", "db_id": "wta_1", "question": "Find the name and rank of the 3 youngest winners across all matches."}
+{"id": "wta_1__t10", "db_id": "wta_1", "question": "What are the names of tournaments that have more than 10 matches?"}
+{"id": "wta_1__t11", "db_id": "wta_1", "question": "What are the country code and first name of the players who won in both tourney WTA Championships and Australian Open?"}
+{"id": "wta_1__t12", "db_id": "wta_1", "question": "How many players are from each country?"}
+{"id": "wta_1__t13", "db_id": "wta_1", "question": "What are the names and ranks of the three youngest winners across all matches?"}
+{"id": "wta_1__t14", "db_id": "wta_1", "question": "What is the name of the winner who has won the most matches, and how many rank points does this player have?"}
+{"id": "concert_singer__t00", "db_id": "concert_singer", "question": "What are the number of concerts that occurred in the stadium with the largest capacity ?"}
+{"id": "concert_singer__t01", "db_id": "concert_singer", "question": "Show the name and theme for all concerts and the number of singers in each concert."}
+{"id": "concert_singer__t02", "db_id": "concert_singer", "question": "For each stadium, how many concerts play there?"}
+{"id": "concert_singer__t03", "db_id": "concert_singer", "question": "List all song names by singers above the average age."}
+{"id": "concert_singer__t04", "db_id": "concert_singer", "question": "Find the number of concerts happened in the stadium with the highest capacity ."}
+{"id": "concert_singer__t05", "db_id": "concert_singer", "question": "Show countries where a singer above age 40 and a singer below 30 are from."}
+{"id": "concert_singer__t06", "db_id": "concert_singer", "question": "Show the stadium name and capacity with most number of concerts in year 2014 or after."}
+{"id": "concert_singer__t07", "db_id": "concert_singer", "question": "Which year has most number of concerts?"}
+{"id": "concert_singer__t08", "db_id": "concert_singer", "question": "What is the average and maximum capacities for all stadiums ?"}
+{"id": "concert_singer__t09", "db_id": "concert_singer", "question": "What are the names of the stadiums without any concerts?"}
+{"id": "concert_singer__t10", "db_id": "concert_singer", "question": "What are the names and release years for all the songs of the youngest singer?"}
+{"id": "concert_singer__t11", "db_id": "concert_singer", "question": "What are the names of the singers and number of concerts for each person?"}
+{"id": "concert_singer__t12", "db_id": "concert_singer", "question": "How many concerts are there in year 2014 or 2015?"}
+{"id": "concert_singer__t13", "db_id": "concert_singer", "question": "Show the name and the release year of the song by the youngest singer."}
+{"id": "concert_singer__t14", "db_id": "concert_singer", "question": "What is the name and country of origin of every singer who has a song with the word 'Hey' in its title?"}
+{"id": "pets_1__t00", "db_id": "pets_1", "question": "How many dog pets are raised by female students?"}
+{"id": "pets_1__t01", "db_id": "pets_1", "question": "Find the number of pets whose weight is heavier than 10."}
+{"id": "pets_1__t02", "db_id": "pets_1", "question": "Find the number of pets for each student who has any pet and student id."}
+{"id": "pets_1__t03", "db_id": "pets_1", "question": "Find the id and weight of all pets whose age is older than 1."}
+{"id": "pets_1__t04", "db_id": "pets_1", "question": "Find the first name and age of students who have a dog but do not have a cat as a pet."}
+{"id": "pets_1__t05", "db_id": "pets_1", "question": "What is the id of the pet owned by the student whose last name is 'Smith'?"}
+{"id": "pets_1__t06", "db_id": "pets_1", "question": "What is the average and maximum age for each pet type?"}
+{"id": "pets_1__t07", "db_id": "pets_1", "question": "How many pets are owned by students that have an age greater than 20?"}
+{"id": "pets_1__t08", "db_id": "pets_1", "question": "Find the average weight for each pet type."}
+{"id": "pets_1__t09", "db_id": "pets_1", "question": "List the maximum weight and type for each type of pet."}
+{"id": "pets_1__t10", "db_id": "pets_1", "question": "What are the ids of the students who do not own cats as pets?"}
+{"id": "pets_1__t11", "db_id": "pets_1", "question": "What is the average age for all students who do not own any pets ?"}
+{"id": "pets_1__t12", "db_id": "pets_1", "question": "Find the last name of the student who has a cat that is age 3."}
+{"id": "pets_1__t13", "db_id": "pets_1", "question": "Find the id of the pet owned by student whose last name is ‘Smith’."}
+{"id": "pets_1__t14", "db_id": "pets_1", "question": "How much does the youngest dog weigh?"}

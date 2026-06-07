@@ -1,0 +1,7 @@
+{
+  "profile_id": "sonnet-meta",
+  "name": "Meta/feedback agent (Claude Sonnet)",
+  "agent_impl": "claude",
+  "model": "sonnet",
+  "provider_id": "anthropic"
+}

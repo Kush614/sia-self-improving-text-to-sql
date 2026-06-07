@@ -1,0 +1,120 @@
+{"id": "car_1__t00", "predicted_sql": "SELECT T1.FullName ,  T1.Id FROM CAR_MAKERS AS T1 JOIN MODEL_LIST AS T2 ON T1.Id  =  T2.Maker GROUP BY T1.Id HAVING count(*)  >  3;"}
+{"id": "car_1__t01", "predicted_sql": "SELECT DISTINCT T1.model FROM MODEL_LIST AS T1 JOIN CAR_NAMES AS T2 ON T1.model  =  T2.model JOIN CARS_DATA AS T3 ON T2.MakeId  =  T3.id WHERE T3.year  >  1980;"}
+{"id": "car_1__t02", "predicted_sql": "select max(mpg) from cars_data where cylinders  =  8 or year  <  1980"}
+{"id": "car_1__t03", "predicted_sql": "SELECT T1.FullName ,  T1.Id ,  count(*) FROM CAR_MAKERS AS T1 JOIN MODEL_LIST AS T2 ON T1.Id  =  T2.Maker GROUP BY T1.Id;"}
+{"id": "car_1__t04", "predicted_sql": "select count(*) from countries as t1 join car_makers as t2 on t1.countryid  =  t2.country group by t1.countryid having count(*)  >  2"}
+{"id": "car_1__t05", "predicted_sql": "SELECT max(Accelerate) ,  Cylinders FROM CARS_DATA GROUP BY Cylinders;"}
+{"id": "car_1__t06", "predicted_sql": "select avg(horsepower) from cars_data where year  <  1980;"}
+{"id": "car_1__t07", "predicted_sql": "SELECT avg(mpg) FROM CARS_DATA WHERE Cylinders  =  4;"}
+{"id": "car_1__t08", "predicted_sql": "SELECT T1.Accelerate FROM CARS_DATA AS T1 JOIN CAR_NAMES AS T2 ON T1.Id  =  T2.MakeId WHERE T2.Make  =  'amc hornet sportabout (sw)';"}
+{"id": "car_1__t09", "predicted_sql": "SELECT Model FROM CAR_NAMES GROUP BY Model ORDER BY count(*) DESC LIMIT 1;"}
+{"id": "car_1__t10", "predicted_sql": "SELECT T1.model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId  =  T2.Id WHERE T2.Weight  <  (SELECT avg(Weight) FROM CARS_DATA)"}
+{"id": "car_1__t11", "predicted_sql": "SELECT T2.CountryName FROM CAR_MAKERS AS T1 JOIN COUNTRIES AS T2 ON T1.Country  =  T2.CountryId GROUP BY T1.Country ORDER BY Count(*) DESC LIMIT 1;"}
+{"id": "car_1__t12", "predicted_sql": "SELECT avg(T2.edispl) FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId  =  T2.Id WHERE T1.Model  =  'volvo';"}
+{"id": "car_1__t13", "predicted_sql": "SELECT count(*) FROM MODEL_LIST AS T1 JOIN CAR_MAKERS AS T2 ON T1.Maker  =  T2.Id JOIN COUNTRIES AS T3 ON T2.Country  =  T3.CountryId WHERE T3.CountryName  =  'usa';"}
+{"id": "car_1__t14", "predicted_sql": "SELECT Maker ,  Model FROM MODEL_LIST;"}
+{"id": "concert_singer__t00", "predicted_sql": "select count(*) from concert where stadium_id = (select stadium_id from stadium order by capacity desc limit 1)"}
+{"id": "concert_singer__t01", "predicted_sql": "SELECT T2.concert_name ,  T2.theme ,  count(*) FROM singer_in_concert AS T1 JOIN concert AS T2 ON T1.concert_id  =  T2.concert_id GROUP BY T2.concert_id"}
+{"id": "concert_singer__t02", "predicted_sql": "SELECT T2.name ,  count(*) FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id GROUP BY T1.stadium_id"}
+{"id": "concert_singer__t03", "predicted_sql": "SELECT song_name FROM singer WHERE age  >  (SELECT avg(age) FROM singer)"}
+{"id": "concert_singer__t04", "predicted_sql": "select count(*) from concert where stadium_id = (select stadium_id from stadium order by capacity desc limit 1)"}
+{"id": "concert_singer__t05", "predicted_sql": "SELECT country FROM singer WHERE age  >  40 INTERSECT SELECT country FROM singer WHERE age  <  30"}
+{"id": "concert_singer__t06", "predicted_sql": "SELECT T2.name ,  T2.capacity FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.year  >=  2014 GROUP BY T2.stadium_id ORDER BY count(*) DESC LIMIT 1"}
+{"id": "concert_singer__t07", "predicted_sql": "SELECT YEAR FROM concert GROUP BY YEAR ORDER BY count(*) DESC LIMIT 1"}
+{"id": "concert_singer__t08", "predicted_sql": "select avg(capacity) ,  max(capacity) from stadium"}
+{"id": "concert_singer__t09", "predicted_sql": "SELECT name FROM stadium WHERE stadium_id NOT IN (SELECT stadium_id FROM concert)"}
+{"id": "concert_singer__t10", "predicted_sql": "SELECT song_name ,  song_release_year FROM singer ORDER BY age LIMIT 1"}
+{"id": "concert_singer__t11", "predicted_sql": "SELECT T2.name ,  count(*) FROM singer_in_concert AS T1 JOIN singer AS T2 ON T1.singer_id  =  T2.singer_id GROUP BY T2.singer_id"}
+{"id": "concert_singer__t12", "predicted_sql": "SELECT count(*) FROM concert WHERE YEAR  =  2014 OR YEAR  =  2015"}
+{"id": "concert_singer__t13", "predicted_sql": "SELECT song_name ,  song_release_year FROM singer ORDER BY age LIMIT 1"}
+{"id": "concert_singer__t14", "predicted_sql": "SELECT name ,  country FROM singer WHERE song_name LIKE '%Hey%'"}
+{"id": "dog_kennels__t00", "predicted_sql": "SELECT count(DISTINCT professional_id) FROM Treatments"}
+{"id": "dog_kennels__t01", "predicted_sql": "SELECT T1.owner_id ,  T2.first_name ,  T2.last_name FROM Dogs AS T1 JOIN Owners AS T2 ON T1.owner_id  =  T2.owner_id GROUP BY T1.owner_id ORDER BY count(*) DESC LIMIT 1"}
+{"id": "dog_kennels__t02", "predicted_sql": "SELECT cost_of_treatment FROM Treatments ORDER BY date_of_treatment DESC LIMIT 1"}
+{"id": "dog_kennels__t03", "predicted_sql": "SELECT count(*) FROM Dogs WHERE age  <  ( SELECT avg(age) FROM Dogs )"}
+{"id": "dog_kennels__t04", "predicted_sql": "SELECT T1.treatment_type_description FROM Treatment_types AS T1 JOIN Treatments AS T2 ON T1.treatment_type_code  =  T2.treatment_type_code GROUP BY T1.treatment_type_code ORDER BY sum(cost_of_treatment) ASC LIMIT 1"}
+{"id": "dog_kennels__t05", "predicted_sql": "SELECT email_address ,  cell_number ,  home_phone FROM professionals"}
+{"id": "dog_kennels__t06", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "dog_kennels__t07", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "dog_kennels__t08", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "dog_kennels__t09", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "dog_kennels__t10", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "dog_kennels__t11", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "dog_kennels__t12", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "dog_kennels__t13", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "dog_kennels__t14", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "flight_2__t00", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "flight_2__t01", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "flight_2__t02", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "flight_2__t03", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "flight_2__t04", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "flight_2__t05", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "flight_2__t06", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "flight_2__t07", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "flight_2__t08", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "flight_2__t09", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "flight_2__t10", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "flight_2__t11", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "flight_2__t12", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "flight_2__t13", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "flight_2__t14", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "pets_1__t00", "predicted_sql": "SELECT * FROM Has_Pet"}
+{"id": "pets_1__t01", "predicted_sql": "SELECT * FROM Has_Pet"}
+{"id": "pets_1__t02", "predicted_sql": "SELECT * FROM Has_Pet"}
+{"id": "pets_1__t03", "predicted_sql": "SELECT * FROM Has_Pet"}
+{"id": "pets_1__t04", "predicted_sql": "SELECT * FROM Has_Pet"}
+{"id": "pets_1__t05", "predicted_sql": "SELECT * FROM Has_Pet"}
+{"id": "pets_1__t06", "predicted_sql": "SELECT * FROM Has_Pet"}
+{"id": "pets_1__t07", "predicted_sql": "SELECT * FROM Has_Pet"}
+{"id": "pets_1__t08", "predicted_sql": "SELECT * FROM Has_Pet"}
+{"id": "pets_1__t09", "predicted_sql": "SELECT * FROM Has_Pet"}
+{"id": "pets_1__t10", "predicted_sql": "SELECT * FROM Has_Pet"}
+{"id": "pets_1__t11", "predicted_sql": "SELECT * FROM Has_Pet"}
+{"id": "pets_1__t12", "predicted_sql": "SELECT * FROM Has_Pet"}
+{"id": "pets_1__t13", "predicted_sql": "SELECT * FROM Has_Pet"}
+{"id": "pets_1__t14", "predicted_sql": "SELECT * FROM Has_Pet"}
+{"id": "student_transcripts_tracking__t00", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "student_transcripts_tracking__t01", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "student_transcripts_tracking__t02", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "student_transcripts_tracking__t03", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "student_transcripts_tracking__t04", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "student_transcripts_tracking__t05", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "student_transcripts_tracking__t06", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "student_transcripts_tracking__t07", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "student_transcripts_tracking__t08", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "student_transcripts_tracking__t09", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "student_transcripts_tracking__t10", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "student_transcripts_tracking__t11", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "student_transcripts_tracking__t12", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "student_transcripts_tracking__t13", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "student_transcripts_tracking__t14", "predicted_sql": "SELECT * FROM sqlite_master"}
+{"id": "world_1__t00", "predicted_sql": "SELECT * FROM sqlite_sequence"}
+{"id": "world_1__t01", "predicted_sql": "SELECT * FROM sqlite_sequence"}
+{"id": "world_1__t02", "predicted_sql": "SELECT * FROM sqlite_sequence"}
+{"id": "world_1__t03", "predicted_sql": "SELECT * FROM sqlite_sequence"}
+{"id": "world_1__t04", "predicted_sql": "SELECT * FROM sqlite_sequence"}
+{"id": "world_1__t05", "predicted_sql": "SELECT * FROM sqlite_sequence"}
+{"id": "world_1__t06", "predicted_sql": "SELECT * FROM sqlite_sequence"}
+{"id": "world_1__t07", "predicted_sql": "SELECT * FROM sqlite_sequence"}
+{"id": "world_1__t08", "predicted_sql": "SELECT * FROM sqlite_sequence"}
+{"id": "world_1__t09", "predicted_sql": "SELECT * FROM sqlite_sequence"}
+{"id": "world_1__t10", "predicted_sql": "SELECT * FROM sqlite_sequence"}
+{"id": "world_1__t11", "predicted_sql": "SELECT * FROM sqlite_sequence"}
+{"id": "world_1__t12", "predicted_sql": "SELECT * FROM sqlite_sequence"}
+{"id": "world_1__t13", "predicted_sql": "SELECT * FROM sqlite_sequence"}
+{"id": "world_1__t14", "predicted_sql": "SELECT * FROM sqlite_sequence"}
+{"id": "wta_1__t00", "predicted_sql": "SELECT * FROM matches"}
+{"id": "wta_1__t01", "predicted_sql": "SELECT * FROM matches"}
+{"id": "wta_1__t02", "predicted_sql": "SELECT * FROM matches"}
+{"id": "wta_1__t03", "predicted_sql": "SELECT * FROM matches"}
+{"id": "wta_1__t04", "predicted_sql": "SELECT * FROM matches"}
+{"id": "wta_1__t05", "predicted_sql": "SELECT * FROM matches"}
+{"id": "wta_1__t06", "predicted_sql": "SELECT * FROM matches"}
+{"id": "wta_1__t07", "predicted_sql": "SELECT * FROM matches"}
+{"id": "wta_1__t08", "predicted_sql": "SELECT * FROM matches"}
+{"id": "wta_1__t09", "predicted_sql": "SELECT * FROM matches"}
+{"id": "wta_1__t10", "predicted_sql": "SELECT * FROM matches"}
+{"id": "wta_1__t11", "predicted_sql": "SELECT * FROM matches"}
+{"id": "wta_1__t12", "predicted_sql": "SELECT * FROM matches"}
+{"id": "wta_1__t13", "predicted_sql": "SELECT * FROM matches"}
+{"id": "wta_1__t14", "predicted_sql": "SELECT * FROM matches"}
